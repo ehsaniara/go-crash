@@ -1,0 +1,23 @@
+app:
+  runMode: "debug"
+  version: "1.0.0"
+  readTimeout: 60000000
+  writeTimeout: 60000000
+  endPointPort: 8080
+  jwtSecret: "123"
+  pageSize: 10
+  objectCashTtl: 3600
+
+database:
+  host: localhost
+  port: 5432
+  dbName: go_crash
+  username: postgres
+  password: postgres
+
+redis:
+  host: "127.0.0.1:6379"
+  password: secret
+  maxIdle: 30
+  maxActive: 30
+  idleTimeout: 200
