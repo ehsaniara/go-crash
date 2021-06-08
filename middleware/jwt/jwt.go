@@ -14,14 +14,12 @@ func JWT() gin.HandlerFunc {
 		var code string
 
 		code = "SUCCESS"
-		token := c.Query("token")
-
-		fmt.Printf(">>>>>>>>>>>> token: %s \n", token)
+		token := c.Request.Header["Token"][0]
 
 		if token == "" {
 			code = "INVALID_PARAMS"
 		} else {
-			claims, err := util.ParseToken(token)
+			claims, err := util.ParseJwtToken(token)
 			if err != nil {
 				switch err.(*jwt.ValidationError).Errors {
 				case jwt.ValidationErrorExpired:
