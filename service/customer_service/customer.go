@@ -60,3 +60,25 @@ func (c *Customer) GetCustomer() (*models.Customer, error) {
 
 	return customer, nil
 }
+
+func (c *Customer) AddCustomer() (*models.Customer, error) {
+	customer, err := models.AddNewCustomer(models.Customer{
+		FirstName: c.FirstName,
+		LastName:  c.LastName,
+		Title:     c.Title,
+		CreatedBy: c.CreatedBy,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	//store it in the Redis
+	key := fmt.Sprintf("CUSTOMER_%s", strconv.Itoa(customer.ID))
+
+	err = redis.Set(key, customer, config.AppConfig.App.ObjectCashTtl)
+	if err != nil {
+		return nil, err
+	}
+
+	return customer, err
+}

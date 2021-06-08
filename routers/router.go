@@ -25,6 +25,7 @@ func InitRouter() *gin.Engine {
 	apiV1.Use(jwt.JWT())
 	{
 		apiV1.GET("/customers/:id", v1.GetCustomerById)
+		apiV1.POST("/customers/", v1.AddNewCustomer)
 	}
 
 	return r
