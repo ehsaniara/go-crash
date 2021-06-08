@@ -1,3 +1,3 @@
 # go-crash
-Project **go-crash** is just my go lang practices
-<img src="./material/golang.svg" width="200">
+Project **go-crash** is just my go lang practices<br/>
+<img src="./material/golang.svg" width="300">
