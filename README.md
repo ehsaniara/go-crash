@@ -1,2 +1,3 @@
 # go-crash
-go-crash is my go lang practices 
+Project **go-crash** is just my go lang practices
+![GoLang](./material/golang.svg)
