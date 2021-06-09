@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  go-crash:
+    build: . -t
+    ports:
+      - "8080:8080"
+    container_name: go-crash-app
+    environment:
+      PROFILE: "docker"
+      DATABASE_USER: "postgres"
+      DATABASE_PASSWORD: "postgres"
+      DATABASE_DB: "go_crash"
+      REDIS_PASSWORD: "secret"
+    depends_on:
+      - db
+      - redis
+  db:
+    container_name: go-crash-db
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "go_crash"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: go-crash-redis
+    image: 'redis:5-alpine'
+    command: redis-server --requirepass secret
+    ports:
+      - '6379:6379'
+    environment:
+      - REDIS_PASSWORD=secret

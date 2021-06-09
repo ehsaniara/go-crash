@@ -28,6 +28,5 @@ func Setup() {
 		"attempt", 3,
 		"backoff", time.Second,
 	)
-	sugar.Infof("Hi %s", "true")
 	Log = sugar
 }
