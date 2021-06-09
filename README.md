@@ -94,7 +94,7 @@ now you have your token, you should use it in every call under `/api/v1` as head
 
 ```shell
 curl --location --request POST 'http://localhost:8080/api/v1/customers' \
---header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2MjMyODc2MzIsImlzcyI6ImdvLWNyYXNoIn0.Leil5GXEgyx068WBtxRKG-Cikyrf_F2RBwG5GSqQhG8' \
+--header 'token: eyJhbGciOiJI...GSqQhG8' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "firstName": "Jay",
@@ -120,8 +120,7 @@ And the response from the following call will be:
 ### Get User
 
 ```shell
-curl --location --request GET 'http://localhost:8080/api/v1/customers/1' \
---header 'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJleHAiOjE2MjMyODc2MzIsImlzcyI6ImdvLWNyYXNoIn0.Leil5GXEgyx068WBtxRKG-Cikyrf_F2RBwG5GSqQhG8'
+curl --location --request GET 'http://localhost:8080/api/v1/customers/1' --header 'token: eyJhbGciOiJI...GSqQhG8'
 ```
 
 The first call gets the data from postgres and store it in your Redis cache ans show it as:
