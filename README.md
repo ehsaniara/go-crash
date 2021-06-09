@@ -138,4 +138,4 @@ The first call gets the data from postgres and store it in your Redis cache ans 
 }
 ```
 
-the latter calls for the same customer id will be much faster because it's calling the redis from now on
+Latter calls for the same customer id will be much faster because it's calling the redis from now on
