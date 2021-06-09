@@ -10,3 +10,20 @@ Follow the following steps:
 - Open your browser on http://localhost:8080
 
 Api Documentations are in http://localhost:8080/swagger/index.html
+
+# Docker Run
+
+run the project in docker, It also has images for:
+- Redis 
+- Postgres 
+## Start the docker compose
+
+```shell
+docker-compose up -d
+```
+
+## clean the docker compose
+
+```shell
+docker-compose down -v
+```
