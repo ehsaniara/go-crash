@@ -54,7 +54,7 @@ func AddNewCustomer(c *gin.Context) {
 		LastName:   addCustomer.LastName,
 		Title:      addCustomer.Title,
 		CreatedBy:  claimsVar.Username,
-		ModifiedBy: claimsVar.Username,
+		ModifiedBy: "",
 	}
 	customer, err := customerService.AddCustomer()
 

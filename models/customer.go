@@ -7,9 +7,9 @@ import (
 
 type Customer struct {
 	Model
-	FirstName  string `json:"firstName" validate:"required"`
-	LastName   string `json:"lastName" validate:"required"`
-	Title      string `json:"title" validate:"required"`
+	FirstName  string `json:"firstName" validate:"required" gorm:"not null"`
+	LastName   string `json:"lastName" validate:"required" gorm:"not null"`
+	Title      string `json:"title" validate:"required" gorm:"not null"`
 	CreatedBy  string `json:"createdBy"`
 	ModifiedBy string `json:"modifiedBy"`
 }
@@ -26,7 +26,8 @@ func GetCustomerById(id int) (*Customer, error) {
 
 func AddNewCustomer(customer Customer) (*Customer, error) {
 
-	customer.CreatedOn = int(time.Now().Unix())
+	customer.CreatedOn = time.Now()
+	customer.ModifiedOn = time.Now()
 
 	db.Save(&customer)
 

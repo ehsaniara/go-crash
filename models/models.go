@@ -6,14 +6,15 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
+	"time"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:"id"`
-	CreatedOn  int `json:"created_on"`
-	ModifiedOn int `json:"modified_on"`
+	ID         int       `gorm:"primary_key" json:"id"`
+	CreatedOn  time.Time `json:"createdOn" sql:"DEFAULT:'current_timestamp'"`
+	ModifiedOn time.Time `json:"modifiedOn"`
 }
 
 // Setup initializes the database instance

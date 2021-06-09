@@ -17,11 +17,13 @@ type Customer struct {
 	Title     string
 
 	CreatedBy  string
-	ModifiedBy string
+	ModifiedBy string `json:"modifiedBy,omitempty"`
+	CreatedOn  int
+	ModifiedOn int
 }
 
-func (c *Customer) GetCustomer() (*models.Customer, error) {
-	var customer *models.Customer
+func (c *Customer) GetCustomer() (*Customer, error) {
+	var customerModel *models.Customer
 
 	key := fmt.Sprintf("CUSTOMER_%s", strconv.Itoa(c.ID))
 
@@ -30,40 +32,40 @@ func (c *Customer) GetCustomer() (*models.Customer, error) {
 	if err != nil {
 		log.Print(err)
 	} else {
-		err := json.Unmarshal(data, &customer)
+		err := json.Unmarshal(data, &customerModel)
 		if err != nil {
 			return nil, err
 		}
-		if customer.ID > 0 {
-			fmt.Printf("Customer found in redis, id:%d\n", customer.ID)
-			return customer, nil
+		if customerModel.ID > 0 {
+			fmt.Printf("Customer found in redis, id:%d\n", customerModel.ID)
+			return customerModelToCustomer(*customerModel)
 		}
 	}
 
 	//if not exist
-	customer, err = models.GetCustomerById(c.ID)
+	customerModel, err = models.GetCustomerById(c.ID)
 	if err != nil {
 		return nil, err
 	} else {
-		fmt.Printf("Customer found in PG, id:%d\n", customer.ID)
+		fmt.Printf("Customer found in PG, id:%d\n", customerModel.ID)
 	}
 
-	if customer.ID == 0 {
-		fmt.Printf("Customer not found in eather Redis or PG, id:%d\n", customer.ID)
+	if customerModel.ID == 0 {
+		fmt.Printf("Customer not found in eather Redis or PG, id:%d\n", customerModel.ID)
 		return nil, nil
 	}
 
-	err = redis.Set(key, customer, config.AppConfig.App.ObjectCashTtl)
+	err = redis.Set(key, customerModel, config.AppConfig.App.ObjectCashTtl)
 	if err != nil {
 		return nil, err
 	}
 
-	return customer, nil
+	return customerModelToCustomer(*customerModel)
 }
 
-func (c *Customer) AddCustomer() (*models.Customer, error) {
+func (c *Customer) AddCustomer() (*Customer, error) {
 
-	customer, err := models.AddNewCustomer(models.Customer{
+	customerModel, err := models.AddNewCustomer(models.Customer{
 		FirstName:  c.FirstName,
 		LastName:   c.LastName,
 		Title:      c.Title,
@@ -75,12 +77,26 @@ func (c *Customer) AddCustomer() (*models.Customer, error) {
 	}
 
 	//store it in the Redis
-	key := fmt.Sprintf("CUSTOMER_%s", strconv.Itoa(customer.ID))
+	key := fmt.Sprintf("CUSTOMER_%s", strconv.Itoa(customerModel.ID))
 
-	err = redis.Set(key, customer, config.AppConfig.App.ObjectCashTtl)
+	err = redis.Set(key, customerModel, config.AppConfig.App.ObjectCashTtl)
 	if err != nil {
 		return nil, err
 	}
 
-	return customer, err
+	return customerModelToCustomer(*customerModel)
+}
+
+func customerModelToCustomer(customerModel models.Customer) (customer *Customer, err error) {
+
+	return &Customer{
+		ID:         customerModel.ID,
+		FirstName:  customerModel.FirstName,
+		LastName:   customerModel.LastName,
+		Title:      customerModel.Title,
+		CreatedBy:  customerModel.CreatedBy,
+		ModifiedBy: customerModel.ModifiedBy,
+		CreatedOn:  int(customerModel.CreatedOn.Unix()),
+		ModifiedOn: int(customerModel.ModifiedOn.Unix()),
+	}, nil
 }
