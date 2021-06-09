@@ -62,11 +62,13 @@ func (c *Customer) GetCustomer() (*models.Customer, error) {
 }
 
 func (c *Customer) AddCustomer() (*models.Customer, error) {
+
 	customer, err := models.AddNewCustomer(models.Customer{
-		FirstName: c.FirstName,
-		LastName:  c.LastName,
-		Title:     c.Title,
-		CreatedBy: c.CreatedBy,
+		FirstName:  c.FirstName,
+		LastName:   c.LastName,
+		Title:      c.Title,
+		CreatedBy:  c.CreatedBy,
+		ModifiedBy: c.ModifiedBy,
 	})
 	if err != nil {
 		return nil, err

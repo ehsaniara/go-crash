@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ehsaniara/go-crash/util"
 	"github.com/gin-gonic/gin"
@@ -28,7 +27,10 @@ func JWT() gin.HandlerFunc {
 					code = "ERROR_AUTH_CHECK_TOKEN_FAIL"
 				}
 			}
-			fmt.Printf("claims: %v\n", claims)
+
+			if claims != nil {
+				c.Set("claims", *claims)
+			}
 		}
 
 		if code != "SUCCESS" {

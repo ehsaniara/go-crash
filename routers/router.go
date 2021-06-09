@@ -5,8 +5,8 @@ import (
 	"github.com/ehsaniara/go-crash/routers/api"
 	"github.com/ehsaniara/go-crash/routers/api/v1"
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+	swaggerFiles "github.com/swaggo/files"     // swagger embed files
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 )
 
 // InitRouter initialize routing information

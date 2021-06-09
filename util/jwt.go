@@ -24,7 +24,8 @@ func GenerateToken(username string) (string, error) {
 	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
-		EncodeMD5(username),
+		username,
+		//EncodeMD5(username),
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "go-crash",

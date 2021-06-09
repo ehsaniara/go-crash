@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Customer struct {
 	Model
@@ -22,6 +25,8 @@ func GetCustomerById(id int) (*Customer, error) {
 }
 
 func AddNewCustomer(customer Customer) (*Customer, error) {
+
+	customer.CreatedOn = int(time.Now().Unix())
 
 	db.Save(&customer)
 
