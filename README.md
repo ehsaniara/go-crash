@@ -120,7 +120,8 @@ And the response from the following call will be:
 ### Get User
 
 ```shell
-curl --location --request GET 'http://localhost:8080/api/v1/customers/1' --header 'token: eyJhbGciOiJI...GSqQhG8'
+curl --location --request GET 'http://localhost:8080/api/v1/customers/1' \
+--header 'token: eyJhbGciOiJI...GSqQhG8'
 ```
 
 The first call gets the data from postgres and store it in your Redis cache ans show it as:
