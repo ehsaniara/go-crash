@@ -2,7 +2,7 @@ version: '2'
 
 services:
   go-crash:
-    build: /.
+    build: .
     ports:
       - "8080:8080"
     container_name: go-crash-app
