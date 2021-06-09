@@ -1,5 +1,6 @@
 app:
-  runMode: "debug"
+  logMode: "Development" # Production
+  ginRunMode: "debug" # "debug","release","test"
   version: "1.0.0"
   readTimeout: 60000000
   writeTimeout: 60000000

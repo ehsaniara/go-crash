@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"fmt"
+	"github.com/ehsaniara/go-crash/pkg/log"
 	"github.com/ehsaniara/go-crash/service/customer_service"
 	"github.com/ehsaniara/go-crash/util"
 	"github.com/gin-gonic/gin"
@@ -47,7 +47,7 @@ func AddNewCustomer(c *gin.Context) {
 
 	var claimsVar = claims.(util.Claims)
 
-	fmt.Printf("Create username: %v", claimsVar.Username)
+	log.Log.Debugf("Create username: %v", claimsVar.Username)
 
 	customerService := customer_service.Customer{
 		FirstName:  addCustomer.FirstName,

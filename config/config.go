@@ -13,7 +13,8 @@ type Config struct {
 }
 
 type App struct {
-	RunMode       string
+	LogMode       string
+	GinRunMode    string //"debug","release","test"
 	Version       string
 	ReadTimeout   time.Duration
 	WriteTimeout  time.Duration

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/ehsaniara/go-crash/config"
 	"github.com/ehsaniara/go-crash/models"
+	"github.com/ehsaniara/go-crash/pkg/log"
 	"github.com/ehsaniara/go-crash/pkg/redis"
-	"log"
 	"strconv"
 )
 
@@ -30,14 +30,14 @@ func (c *Customer) GetCustomer() (*Customer, error) {
 	//check the cache (redis)
 	data, err := redis.Get(key)
 	if err != nil {
-		log.Print(err)
+		log.Log.Infof("GetCustomer Error: %s", err)
 	} else {
 		err := json.Unmarshal(data, &customerModel)
 		if err != nil {
 			return nil, err
 		}
 		if customerModel.ID > 0 {
-			fmt.Printf("Customer found in redis, id:%d\n", customerModel.ID)
+			log.Log.Debugf("Customer found in redis, id:%d", customerModel.ID)
 			return customerModelToCustomer(*customerModel)
 		}
 	}
@@ -47,16 +47,17 @@ func (c *Customer) GetCustomer() (*Customer, error) {
 	if err != nil {
 		return nil, err
 	} else {
-		fmt.Printf("Customer found in PG, id:%d\n", customerModel.ID)
+		log.Log.Debugf("Customer found in PG, id:%d", customerModel.ID)
 	}
 
 	if customerModel.ID == 0 {
-		fmt.Printf("Customer not found in eather Redis or PG, id:%d\n", customerModel.ID)
+		log.Log.Debugf("Customer not found in eather Redis or PG, id:%d", customerModel.ID)
 		return nil, nil
 	}
 
 	err = redis.Set(key, customerModel, config.AppConfig.App.ObjectCashTtl)
 	if err != nil {
+		log.Log.Errorf("err:%d", err)
 		return nil, err
 	}
 
@@ -73,6 +74,7 @@ func (c *Customer) AddCustomer() (*Customer, error) {
 		ModifiedBy: c.ModifiedBy,
 	})
 	if err != nil {
+		log.Log.Errorf("err:%d", err)
 		return nil, err
 	}
 
@@ -81,6 +83,7 @@ func (c *Customer) AddCustomer() (*Customer, error) {
 
 	err = redis.Set(key, customerModel, config.AppConfig.App.ObjectCashTtl)
 	if err != nil {
+		log.Log.Errorf("err:%d", err)
 		return nil, err
 	}
 

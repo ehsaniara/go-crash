@@ -2,17 +2,17 @@ package redis
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/ehsaniara/go-crash/config"
+	"github.com/ehsaniara/go-crash/pkg/log"
 	"github.com/gomodule/redigo/redis"
 	"time"
 )
 
-var RedisConn *redis.Pool
+var Conn *redis.Pool
 
 // Setup Initialize the Redis instance
 func Setup() {
-	RedisConn = &redis.Pool{
+	Conn = &redis.Pool{
 		MaxIdle:     config.AppConfig.Redis.MaxIdle,
 		MaxActive:   config.AppConfig.Redis.MaxActive,
 		IdleTimeout: config.AppConfig.Redis.IdleTimeout,
@@ -37,31 +37,35 @@ func Setup() {
 			return err
 		},
 	}
-	fmt.Printf(" - Redis Started on Host: %s\n", config.AppConfig.Redis.Host)
+	log.Log.Infof("Redis Started on Host: %s", config.AppConfig.Redis.Host)
+
 }
 
 // Set a key/value
 func Set(key string, data interface{}, time int) error {
-	conn := RedisConn.Get()
+	conn := Conn.Get()
 	defer func(conn redis.Conn) {
 		err := conn.Close()
 		if err != nil {
-			fmt.Errorf("Redi set %v\n", err)
+			log.Log.Fatalf("Redi set %v", err)
 		}
 	}(conn)
 
 	value, err := json.Marshal(data)
 	if err != nil {
+		log.Log.Fatalf("err: %v", err)
 		return err
 	}
 
 	_, err = conn.Do("SET", key, value)
 	if err != nil {
+		log.Log.Fatalf("err: %v", err)
 		return err
 	}
 
 	_, err = conn.Do("EXPIRE", key, time)
 	if err != nil {
+		log.Log.Fatalf("err: %v", err)
 		return err
 	}
 
@@ -70,16 +74,17 @@ func Set(key string, data interface{}, time int) error {
 
 // Exists check a key
 func Exists(key string) bool {
-	conn := RedisConn.Get()
+	conn := Conn.Get()
 	defer func(conn redis.Conn) {
 		err := conn.Close()
 		if err != nil {
-			fmt.Errorf("Redi Exists %v\n", err)
+			log.Log.Fatalf("Redi Exists %v", err)
 		}
 	}(conn)
 
 	exists, err := redis.Bool(conn.Do("EXISTS", key))
 	if err != nil {
+		log.Log.Fatalf("err: %v", err)
 		return false
 	}
 
@@ -88,11 +93,11 @@ func Exists(key string) bool {
 
 // Get get a key
 func Get(key string) ([]byte, error) {
-	conn := RedisConn.Get()
+	conn := Conn.Get()
 	defer func(conn redis.Conn) {
 		err := conn.Close()
 		if err != nil {
-			fmt.Errorf("Redi Get %v\n", err)
+			log.Log.Fatalf("Redi Get %v\n", err)
 		}
 	}(conn)
 
@@ -106,11 +111,11 @@ func Get(key string) ([]byte, error) {
 
 // Delete delete a kye
 func Delete(key string) (bool, error) {
-	conn := RedisConn.Get()
+	conn := Conn.Get()
 	defer func(conn redis.Conn) {
 		err := conn.Close()
 		if err != nil {
-			fmt.Errorf("Redi Delete %v\n", err)
+			log.Log.Fatalf("Redi Delete %v\n", err)
 		}
 	}(conn)
 

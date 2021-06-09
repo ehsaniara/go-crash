@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ehsaniara/go-crash/config"
 	"github.com/ehsaniara/go-crash/models"
+	"github.com/ehsaniara/go-crash/pkg/log"
 	"github.com/ehsaniara/go-crash/pkg/redis"
 	"github.com/ehsaniara/go-crash/routers"
 	"github.com/ehsaniara/go-crash/util"
@@ -13,6 +14,7 @@ import (
 
 func init() {
 	config.Setup()
+	log.Setup()
 	models.Setup()
 	redis.Setup()
 	util.Setup()
@@ -21,7 +23,7 @@ func init() {
 func main() {
 
 	// gin setting
-	gin.SetMode(config.AppConfig.App.RunMode)
+	gin.SetMode(config.AppConfig.App.GinRunMode) //"debug","release","test"
 	routersInit := routers.InitRouter()
 	readTimeout := config.AppConfig.App.ReadTimeout
 	writeTimeout := config.AppConfig.App.WriteTimeout
@@ -36,10 +38,10 @@ func main() {
 		MaxHeaderBytes: maxHeaderBytes,
 	}
 
-	fmt.Printf("[info] start http server listening %v\n", endPoint)
+	log.Log.Infof("start http server listening %v\n", endPoint)
 
 	if err := server.ListenAndServe(); err != nil {
-		fmt.Printf("failed to run the gin: %v\n", err)
+		log.Log.Errorf("failed to run the gin: %v\n", err)
 		return
 	} // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

@@ -5,7 +5,8 @@ import (
 	"github.com/ehsaniara/go-crash/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
+
+	"github.com/ehsaniara/go-crash/pkg/log"
 	"time"
 )
 
@@ -33,13 +34,13 @@ func Setup() {
 	}), &gorm.Config{})
 
 	if err != nil {
-		log.Fatalf("db Error: %s\n", err)
+		log.Log.Fatalf("db Error: %s", err)
 	}
 
 	if err := db.AutoMigrate(&Auth{}, &Customer{}); err != nil {
-		log.Fatalf("db AutoMigrate Error: %s\n", err)
+		log.Log.Fatalf("db AutoMigrate Error: %s\n", err)
 		return
 	}
 
-	fmt.Printf(" - Postgress DB Connection has started on Host: %s\n", config.AppConfig.DataBase.Host)
+	log.Log.Infof("Postgress DB Connection has started on Host: %s", config.AppConfig.DataBase.Host)
 }

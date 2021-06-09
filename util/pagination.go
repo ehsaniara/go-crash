@@ -1,8 +1,8 @@
 package util
 
 import (
-	"fmt"
 	"github.com/ehsaniara/go-crash/config"
+	"github.com/ehsaniara/go-crash/pkg/log"
 	"github.com/gin-gonic/gin"
 	"os"
 	"strconv"
@@ -14,7 +14,7 @@ func GetPage(c *gin.Context) int {
 	page, err := strconv.Atoi(c.Query("page"))
 	if err != nil {
 		// handle error
-		fmt.Println(err)
+		log.Log.Fatalf("GetPage Error: %s", err)
 		os.Exit(2)
 	}
 	if page > 0 {
