@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"github.com/ehsaniara/go-crash/service/customer_service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -36,7 +35,6 @@ func AddNewCustomer(c *gin.Context) {
 	var (
 		addCustomer AddCustomer
 	)
-	fmt.Printf("c: %v", c)
 
 	err := c.BindJSON(&addCustomer)
 	if err != nil {
