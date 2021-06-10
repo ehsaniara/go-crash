@@ -3,8 +3,8 @@
 Project **go-crash** is just my go lang practices
 
 ### Stacks
-- GoLang (with: `gin-gonic`, `viper`, `zap`, `swaggo`)
-- Postgres Db
+- GoLang (with: [gin-gonic](https://github.com/gin-gonic/gin), [viper](https://github.com/spf13/viper), [zap](https://github.com/uber-go/zap), [swaggo](https://github.com/swaggo/swag))
+- Postgres DB
 - Redis
 - Docker
 
