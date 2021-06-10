@@ -5,7 +5,7 @@ import (
 )
 
 type Auth struct {
-	ID       int    `gorm:"primary_key" json:"id"`
+	ID       int    `json:"id" gorm:"primary_key"`
 	Username string `json:"username" gorm:"not null;unique"`
 	Password string `json:"password" gorm:"not null"`
 }
