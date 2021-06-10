@@ -1,3 +1,5 @@
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/ehsaniara/go-crash)](https://goreportcard.com/report/ehsaniara/go-crash)
 # go-crash
 
 Project **go-crash** is just my go lang practices
