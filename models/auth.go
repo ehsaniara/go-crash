@@ -6,8 +6,8 @@ import (
 
 type Auth struct {
 	ID       int    `gorm:"primary_key" json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" gorm:"not null;unique"`
+	Password string `json:"password" gorm:"not null"`
 }
 
 // CheckAuth checks if authentication information exists

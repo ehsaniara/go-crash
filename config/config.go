@@ -66,6 +66,7 @@ func Setup() {
 		viper.SetConfigName("config/config" + profileName)
 
 		//override them from env
+		AppConfig.App.JwtSecret = os.Getenv("APP_JWT_SECRET")
 		AppConfig.DataBase.Username = os.Getenv("DATABASE_USER")
 		AppConfig.DataBase.Password = os.Getenv("DATABASE_PASSWORD")
 		AppConfig.DataBase.DbName = os.Getenv("DATABASE_DB")
@@ -89,11 +90,6 @@ func Setup() {
 	if err := viper.Unmarshal(&AppConfig); err != nil {
 		panic("Unable to unmarshal config")
 	}
-
-	fmt.Printf("DataBase Username: %s\n", AppConfig.DataBase.Username)
-	fmt.Printf("DataBase Password: %s\n", AppConfig.DataBase.Password)
-	fmt.Printf("DataBase Port: %d\n", AppConfig.DataBase.Port)
-	fmt.Printf("DataBase Host: %s\n", AppConfig.DataBase.Host)
 
 	fmt.Printf("App Version: %s\n", AppConfig.App.Version)
 }

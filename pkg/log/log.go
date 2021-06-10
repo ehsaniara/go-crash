@@ -23,7 +23,7 @@ func Setup() {
 	//// In most circumstances, use the SugaredLogger. It's 4-10x faster than most
 	//// other structured logging packages and has a familiar, loosely-typed API.
 	sugar := logger.Sugar()
-	sugar.Infow("Failed to fetch URL.",
+	sugar.Infow("Logger impl test.",
 		// Structured context as loosely typed key-value pairs.
 		"attempt", 3,
 		"backoff", time.Second,
