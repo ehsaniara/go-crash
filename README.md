@@ -22,8 +22,7 @@ If you already have Postgres and Redis running in your machine, just configure t
 - Or Run: `export PROFILE=Default && go run main.go` with selected profile
 - Open your browser on http://localhost:8080
 
-#### Note:
-The `dev`, `docker` and `prod` profiles (environments)'s credentials are get passes from OS env-vars. Let say you want to run this project in kubernetes then, you should pass the environment variables in your deployment manifest. for example:
+> Note: The `dev`, `docker` and `prod` profiles (environments)'s credentials are get passes from OS env-vars. Let say you want to run this project in kubernetes then, you should pass the environment variables in your deployment manifest. for example:
 ```yaml
       image: path-to-image-of-this-project-in-repo
       env:
