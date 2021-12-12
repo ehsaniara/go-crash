@@ -10,8 +10,6 @@ Project **go-crash** is just my go lang practices
 - Redis
 - Docker
 
-<img src="./material/go.svg" width="300">
-
 ### Quick Start
 
 If you already have Postgres and Redis running in your machine, just configure the `config/config.yml` file for credentials follow the steps:
